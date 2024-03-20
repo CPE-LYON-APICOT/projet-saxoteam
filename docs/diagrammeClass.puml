@@ -1,0 +1,35 @@
+@startuml timebomb
+
+abstract class joueur {
+    string nom ;
+}
+
+class sherlock extends joueur {
+
+}
+
+class moriaty extends joueur {
+
+}
+
+abstract class carte {
+
+}
+
+class bomb extends carte implements Ifindujeu{
+
+}
+
+class desamorceur extends carte implements Ifindujeu{
+
+}
+
+class carte_null extends carte {
+
+}
+interface Ifindujeu {
+    verifFinDuJeu(carte)
+}
+
+
+@enduml timebomb
