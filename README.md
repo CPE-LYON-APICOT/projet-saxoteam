@@ -52,3 +52,6 @@ Il est obligatoire d'utiliser de l'injection de dépendance pour les classes qui
 
 Vous pouvez coder un échiquier, un jeu de dames, un Uno, un Risk, ce que vous voulez tant que vous respectez les contraintes ci-dessus.
 Vous pouvez aussi coder un projet qui n'a rien à voir avec les jeux de société, c'est juste un exemple.
+
+
+
