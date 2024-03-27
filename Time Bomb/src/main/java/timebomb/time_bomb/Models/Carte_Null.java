@@ -1,4 +1,4 @@
-package Models;
+package timebomb.time_bomb.Models;
 
 //Carte_Null.java
 public class Carte_Null extends Carte {

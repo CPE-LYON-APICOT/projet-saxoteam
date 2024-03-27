@@ -9,4 +9,6 @@ module timebomb.time_bomb {
 
     opens timebomb.time_bomb to javafx.fxml;
     exports timebomb.time_bomb;
+    exports timebomb.time_bomb.Models;
+    opens timebomb.time_bomb.Models to javafx.fxml;
 }

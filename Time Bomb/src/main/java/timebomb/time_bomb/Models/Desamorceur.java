@@ -1,4 +1,4 @@
-package Models;
+package timebomb.time_bomb.Models;
 
 //Desamorceur.java
 public class Desamorceur extends Carte {

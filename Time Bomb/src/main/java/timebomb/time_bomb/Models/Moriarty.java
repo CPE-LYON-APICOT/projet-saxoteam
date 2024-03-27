@@ -1,4 +1,4 @@
-package Models;
+package timebomb.time_bomb.Models;
 
 //Moriarty.java
 public class Moriarty extends Joueur {

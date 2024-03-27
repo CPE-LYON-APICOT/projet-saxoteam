@@ -1,4 +1,4 @@
-package Models;
+package timebomb.time_bomb.Models;
 
 //Carte.java
 public abstract class Carte {

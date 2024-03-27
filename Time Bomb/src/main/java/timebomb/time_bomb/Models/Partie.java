@@ -1,24 +1,21 @@
-package Models;
+package timebomb.time_bomb.Models;
 
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.ArrayList;
 import java.util.List;
-import Models.Joueur;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner; 
+import java.util.Scanner;
+
 
 
 
 public class Partie {
-    private Joueur[] joueurs;
+    private final Joueur[] joueurs;
     private List<Carte> deck; // Assumez que cela est rempli comme avant
-    private int toursJoues = 0;
+    private final int toursJoues = 0;
     private int desamorceursRestants;
     private boolean bombeTrouvee = false;
-    private Scanner scanner = new Scanner(System.in); // Pour lire l'entrée utilisateur
+    private final Scanner scanner = new Scanner(System.in); // Pour lire l'entrée utilisateur
     
     
     public Partie(int nombreDeJoueurs) {
@@ -113,6 +110,7 @@ public class Partie {
             // Le joueur actuel choisit un joueur cible
             Joueur joueurCible = choisirJoueur(joueurActuelIndex);
             Carte carteRevelee = choisirCarteDuJoueur(joueurCible); // Laissez le joueur actuel choisir une carte du joueur cible
+            assert carteRevelee != null;
             carteRevelee.estRetourner(); // Révèle l'effet de la carte
             
             // Vérifiez si c'est une Bombe ou un Désamorceur

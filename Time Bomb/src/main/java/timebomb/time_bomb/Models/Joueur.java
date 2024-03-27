@@ -1,4 +1,4 @@
-package Models;
+package timebomb.time_bomb.Models;
 import java.util.ArrayList;
 import java.util.List;
 
