@@ -30,7 +30,7 @@
       <AnchorPane prefHeight="66.0" prefWidth="387.0">
          <children>
             <Button fx:id="buttonQuitte" layoutX="43.0" layoutY="20.0" mnemonicParsing="false" onAction="#quitteHandlers" text="Quitter" />
-            <Button fx:id="butonValide" layoutX="279.0" layoutY="20.0" mnemonicParsing="false" text="Valide" />
+            <Button fx:id="butonValide" layoutX="279.0" layoutY="20.0" mnemonicParsing="false" onAction="#valideHandlers" text="Valide" />
          </children>
       </AnchorPane>
    </bottom>
