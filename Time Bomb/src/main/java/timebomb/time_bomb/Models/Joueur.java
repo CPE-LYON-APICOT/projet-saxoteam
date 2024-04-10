@@ -11,6 +11,7 @@ public abstract class Joueur {
  public Joueur(String nom) {
      this.nom = nom;
      this.cartes = new ArrayList<>();
+     this.sectateur = false;
  }
 
  public abstract void jouer();
@@ -47,7 +48,6 @@ public abstract class Joueur {
      if (!cartes.isEmpty()) {
          int index = (int) (Math.random() * cartes.size());
          return cartes.get(index);
-
      }
 	return null;
  }
@@ -58,6 +58,14 @@ public abstract class Joueur {
          return cartes.remove(index); // Retourne et enlève la carte de la main
      }
      return null; // Ou gérer autrement si l'index est invalide
+ }
+
+ public Boolean aLeSecateur(){
+     return this.sectateur;
+ }
+
+ public void setSectateur(boolean sectateur) {
+     this.sectateur = sectateur;
  }
 }
 

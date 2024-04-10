@@ -5,7 +5,6 @@ package timebomb.time_bomb.Models;
 public class Sherlock extends Joueur {
  public Sherlock(String nom) {
      super(nom);
-     this.sectateur = false; // Supposons que Sherlock n'est pas un sectateur
  }
 
  public void jouer() {

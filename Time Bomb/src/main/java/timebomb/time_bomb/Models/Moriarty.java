@@ -4,7 +4,6 @@ package timebomb.time_bomb.Models;
 public class Moriarty extends Joueur {
  public Moriarty(String nom) {
      super(nom);
-     this.sectateur = true; // Supposons que Moriarty est un sectateur
  }
 
  public void jouer() {
