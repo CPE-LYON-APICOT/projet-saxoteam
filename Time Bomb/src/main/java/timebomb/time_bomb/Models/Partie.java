@@ -22,6 +22,10 @@ public class Partie {
         joueurs = new Joueur[nombreDeJoueurs];
     }
 
+    public Partie( List<Joueur> joueurs) {
+        this.joueurs = joueurs.toArray(new Joueur[0]);
+    }
+
     public void initialiser() {
         // Créer un jeu de cartes
         List<Carte> deck = creerDeck(joueurs.length);
