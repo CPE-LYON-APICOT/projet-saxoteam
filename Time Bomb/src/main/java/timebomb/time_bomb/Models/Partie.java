@@ -1,16 +1,12 @@
 package timebomb.time_bomb.Models;
 
-import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-
+import java.util.*;
 
 
 public class Partie {
     private final Joueur[] joueurs;
+
+    private List<Joueur> lesJoueurs;
     private List<Carte> deck; // Assumez que cela est rempli comme avant
     private final int toursJoues = 0;
     private int desamorceursRestants;
@@ -24,6 +20,8 @@ public class Partie {
 
     public Partie( List<Joueur> joueurs) {
         this.joueurs = joueurs.toArray(new Joueur[0]);
+        this.lesJoueurs = joueurs;
+
     }
 
     public void initialiser() {
@@ -35,6 +33,11 @@ public class Partie {
         
         // Distribuer les cartes
         distribuerCartes(deck);
+    }
+
+    public void initialize(){
+        this.deck = creerDeck(lesJoueurs.size());
+
     }
     
     private List<Carte> creerDeck(int nombreDeJoueurs) {
@@ -63,14 +66,14 @@ public class Partie {
     private void assignerRoles() {
         int half = joueurs.length / 2;
         for (int i = 0; i < half; i++) {
-            joueurs[i] = new Sherlock("Sherlock " + (i + 1));
+            joueurs[i] = new Sherlock(joueurs[i]);
         }
         for (int i = half; i < joueurs.length; i++) {
-            joueurs[i] = new Moriarty("Moriarty " + (i + 1 - half));
+            joueurs[i] = new Moriarty(joueurs[i]);
         }
         // Si le nombre de joueurs est différent de 4, ajouter un Sherlock supplémentaire
         if (joueurs.length != 4) {
-            joueurs[joueurs.length - 1] = new Sherlock("Sherlock Extra");
+            joueurs[joueurs.length - 1] = new Sherlock(joueurs[joueurs.length - 1]);
         }
     }
 
@@ -203,6 +206,14 @@ public class Partie {
 
     private void reinitialiserDeckEtDistribuer() {
         // Remélangez le deck et redistribuez les cartes comme au début de la partie
+    }
+
+    public List<Carte> getJoueurDeck(int idJoueur){
+        return joueurs[idJoueur].getCartes();
+    }
+
+    public List<Carte> getDeck(){
+        return this.deck;
     }
 }
     

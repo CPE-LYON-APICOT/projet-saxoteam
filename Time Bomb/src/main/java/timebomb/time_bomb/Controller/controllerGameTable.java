@@ -26,8 +26,8 @@ public class controllerGameTable {
     public void initialize(List<Joueur> joueurs) {
         System.out.println(joueurs);
         Partie partie = new Partie(joueurs);
-        partie.initialiser();
+        partie.initialize();
+        System.out.println(partie.getDeck());
     }
-
 
 }

@@ -10,12 +10,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import timebomb.time_bomb.Models.Joueur;
+import timebomb.time_bomb.Models.Moriarty;
+import timebomb.time_bomb.Models.Sherlock;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +50,6 @@ public class controllerAddUserName {
         TextField textField = new TextField();
         textField.setId("id0");
         grid.addRow(0,textField);
-        System.out.println(grid.getRowCount());
         for (int i = 1; i < this.number; i++) {
             TextField textFieldAdd = new TextField();
             textFieldAdd.setId("id"+i);
@@ -72,12 +74,25 @@ public class controllerAddUserName {
             if (Objects.equals(textField.getText(), "")){
                 return;
             }
-            values.add(new Joueur(textField.getText()) {
-                @Override
-                public void jouer() {
+
+
+            if (number < 6){
+                if (values.size()<=2){
+                    System.out.println("la");
+                    values.add(new Moriarty(textField.getText()));
+                }else{
+                    System.out.println("ici");
+                    values.add(new Sherlock(textField.getText()));
                 }
-            });
+            }else{
+                if (values.size()<=3){
+                    values.add(new Moriarty(textField.getText()));
+                }else{
+                    values.add(new Sherlock(textField.getText()));
+                }
+            }
         }
+        System.out.println(values);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/timebomb/time_bomb/GameTable.fxml"));
         Parent root = loader.load();

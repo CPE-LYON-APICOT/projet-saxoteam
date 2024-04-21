@@ -6,4 +6,9 @@ public class Desamorceur extends Carte {
      // Logique pour quand la carte Desamorceur est retournée
      System.out.println("Ouf! Désamorcé une bombe.");
  }
+
+    @Override
+    public String toString() {
+        return "Desamorceur";
+    }
 }

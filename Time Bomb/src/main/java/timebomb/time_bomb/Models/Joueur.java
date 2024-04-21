@@ -41,7 +41,8 @@ public abstract class Joueur {
  // Redéfinissez toString pour imprimer le rôle du joueur
  @Override
  public String toString() {
-     return nom + " (" + (sectateur ? "Moriarty" : "Sherlock") + ")";
+     String statut = this instanceof Sherlock ? "Moriaty" : "Sherlock";
+     return nom + " (" + statut + ")";
  }
  
  public Carte choisirCarteAuHasard() {

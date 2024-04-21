@@ -6,5 +6,10 @@ public class Bomb extends Carte {
      // Logique pour quand la carte Bomb est retournée
      System.out.println("Boom! Une bombe a explosé.");
  }
+
+    @Override
+    public String toString() {
+        return "Bombe";
+    }
 }
 

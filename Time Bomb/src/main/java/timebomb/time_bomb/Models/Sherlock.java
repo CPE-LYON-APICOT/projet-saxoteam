@@ -7,6 +7,11 @@ public class Sherlock extends Joueur {
      super(nom);
  }
 
+    public Sherlock(Joueur joueur) {
+        super(joueur.getNom());
+    }
+
+
  public void jouer() {
      // Logique spécifique à Sherlock pour jouer un tour
      System.out.println(nom + " est en train de jouer.");

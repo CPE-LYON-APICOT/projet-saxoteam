@@ -6,4 +6,9 @@ public class Carte_Null extends Carte {
  public void estRetourner() {
      // Logique spécifique à une carte 'nulle' ou vide
  }
+
+ @Override
+ public String toString() {
+  return "Carte Null";
+ }
 }
