@@ -68,6 +68,10 @@ public abstract class Joueur {
  public void setSectateur(boolean sectateur) {
      this.sectateur = sectateur;
  }
+
+ public void clearCard(){
+     cartes.clear();
+ }
 }
 
 

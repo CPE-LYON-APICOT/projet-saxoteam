@@ -13,6 +13,9 @@ public class Partie {
     public int desamorceursRestants = 0;
     private boolean bombeTrouvee = false;
     private final Scanner scanner = new Scanner(System.in); // Pour lire l'entrée utilisateur
+    private String status;
+
+    private int nbTour;
     
     
     public Partie(int nombreDeJoueurs) {
@@ -22,6 +25,7 @@ public class Partie {
     public Partie( List<Joueur> joueurs) {
         this.joueurs = joueurs.toArray(new Joueur[0]);
         this.lesJoueurs = joueurs;
+        setNbTour();
 
     }
 
@@ -43,6 +47,7 @@ public class Partie {
         int index = (int) (Math.random() * (lesJoueurs.size()-1));
         setJoueursSecateur(index,true);
         joueurActuel = lesJoueurs.get(index);
+        this.status = "en cours";
     }
 
     public void setJoueursSecateur(int i,boolean bool){
@@ -64,7 +69,11 @@ public class Partie {
             }
         }
     }
-    
+
+    public void setNbTour(){
+        this.nbTour = lesJoueurs.size();
+    }
+
     private List<Carte> creerDeck(int nombreDeJoueurs) {
         List<Carte> deck = new ArrayList<>();
         deck.add(new Bomb()); // Une seule carte Bomb
@@ -83,6 +92,7 @@ public class Partie {
     private void distribuerCartes(List<Carte> deck) {
         int indexCarte = 0;
         for (Joueur joueur : joueurs) {
+            joueur.clearCard();
             for (int j = 0; j < 5 && indexCarte < deck.size(); j++) {
                 joueur.ajouterCarte(deck.get(indexCarte++));
             }
@@ -122,66 +132,12 @@ public class Partie {
             }
         }
     }
-    public void jouerPartie() {
-        // Initialisation
-        initialiser(); // S'assure que les joueurs et les cartes sont prêts
-        desamorceursRestants = joueurs.length; // Un désamorceur par joueur au début
 
-        while (!bombeTrouvee && desamorceursRestants > 0) {
-            jouerManche();
-            if (bombeTrouvee) {
-                System.out.println("L'équipe Moriarty gagne !");
-                break;
-            } else if (desamorceursRestants == 0) {
-                System.out.println("L'équipe Sherlock gagne !");
-                break;
-            }
-
-            // Préparation pour la prochaine manche
-            reinitialiserDeckEtDistribuer();
-        }
-    }
 
     public void setNbManche(){
         this.nbManche = lesJoueurs.size();
     }
 
-    private void jouerManche() {
-        int joueurActuelIndex = 0;
-
-        for (int tour = 0; tour < joueurs.length; tour++) { // Une manche dure pour un nombre de tours égal au nombre de joueurs
-            Joueur joueurActuel = joueurs[joueurActuelIndex];
-            System.out.println("\nC'est le tour de " + joueurActuel.getNom() + ".");
-            
-            // Le joueur actuel choisit un joueur cible
-            Joueur joueurCible = choisirJoueur(joueurActuelIndex);
-            Carte carteRevelee = choisirCarteDuJoueur(joueurCible); // Laissez le joueur actuel choisir une carte du joueur cible
-            assert carteRevelee != null;
-            carteRevelee.estRetourner(); // Révèle l'effet de la carte
-            
-            // Vérifiez si c'est une Bombe ou un Désamorceur
-            if (carteRevelee instanceof Desamorceur) {
-                desamorceursRestants--;
-                System.out.println("Un désamorceur a été trouvé. Désamorceurs restants : " + desamorceursRestants);
-                if (desamorceursRestants == 0) {
-                    System.out.println("Tous les désamorceurs ont été trouvés. L'équipe Sherlock gagne !");
-                    break; // Sortie de la boucle, fin de la manche et de la partie
-                }
-            } else if (carteRevelee instanceof Bomb) {
-                bombeTrouvee = true;
-                System.out.println("La bombe a été trouvée. L'équipe Moriarty gagne !");
-                break; // Sortie de la boucle, fin de la manche et de la partie
-            }
-
-            // Le joueur cible devient le prochain joueur actuel
-            joueurActuelIndex = indexOf(joueurs, joueurCible);
-        }
-
-        // Remélanger les cartes et les distribuer pour la prochaine manche si la partie n'est pas terminée
-        if (!bombeTrouvee && desamorceursRestants > 0) {
-            reinitialiserDeckEtDistribuer();
-        }
-    }
 
 
     // Méthode pour obtenir l'index d'un joueur dans le tableau joueurs
@@ -194,58 +150,30 @@ public class Partie {
         return -1; // Si le joueur n'est pas trouvé, cela indiquerait une erreur
     }
 
-    private Carte choisirCarteDuJoueur(Joueur joueurCible) {
-        List<Carte> cartesDuJoueurCible = joueurCible.getCartes();
-        int nombreDeCartes = cartesDuJoueurCible.size();
-        
-        if (nombreDeCartes == 0) {
-            System.out.println(joueurCible.getNom() + " n'a pas de cartes !");
-            return null; // Vous pourriez avoir besoin de gérer ce cas.
-        }
-        
-        // Demander au joueur actuel de choisir une carte du joueur cible
-        System.out.println(joueurCible.getNom() + " a " + nombreDeCartes + " cartes. Choisissez un numéro de carte entre 1 et " + nombreDeCartes + ":");
-        int choixCarte = -1;
-        while (choixCarte < 1 || choixCarte > nombreDeCartes) {
-            try {
-                choixCarte = scanner.nextInt();
-                if (choixCarte < 1 || choixCarte > nombreDeCartes) {
-                    System.out.println("Numéro invalide. Veuillez choisir un numéro de carte entre 1 et " + nombreDeCartes + ":");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ce n'est pas un nombre valide. Veuillez réessayer.");
-                scanner.next(); // Important pour éviter une boucle infinie
-            }
-        }
-        
-        return cartesDuJoueurCible.remove(choixCarte - 1); // Retirer la carte choisie de la main du joueur cible
-    }
-
-
-
-    private Joueur choisirJoueur(int joueurActuelIndex) {
-        System.out.println("Choisissez un joueur à cibler (par numéro) :");
-        for (int i = 0; i < joueurs.length; i++) {
-            if (i != joueurActuelIndex) { // Ne pas permettre de s'auto-choisir
-                System.out.println(i + ": " + joueurs[i].getNom());
-            }
-        }
-        int choix;
-        do {
-            System.out.println("Entrez le numéro du joueur : ");
-            while (!scanner.hasNextInt()) {
-                System.out.println("Ce n'est pas un numéro valide. Essayez à nouveau : ");
-                scanner.next(); // cela est important !
-            }
-            choix = scanner.nextInt();
-        } while (choix == joueurActuelIndex || choix < 0 || choix >= joueurs.length); // Valider le choix
-
-        return joueurs[choix];
-    }
-
 
     private void reinitialiserDeckEtDistribuer() {
-        // Remélangez le deck et redistribuez les cartes comme au début de la partie
+        deck.removeIf(carte -> carte.estRetourner);
+        distribuCartes(deck);
+    }
+
+    public void removeOneDesamorceur(){
+        if ( desamorceursRestants > 0){
+            this.desamorceursRestants += -1;
+        }
+    }
+
+    public void setNewManche(){
+        if (nbManche>0){
+            reinitialiserDeckEtDistribuer();
+            nbManche--;
+        }
+        else if(nbManche == 0){
+            if(!verifDesamorceur()){
+                this.status = "fin desamorceur";
+            }else{
+                this.status = "fin sans desamorseur";
+            }
+        }
     }
 
     public List<Carte> getJoueurDeck(int idJoueur){
@@ -257,16 +185,14 @@ public class Partie {
     }
     
     public boolean verifDesamorceur(){
-        int nbRetourner = 0;
-        for (Joueur joueur: lesJoueurs) {
-            for (Carte carte : joueur.getCartes()){
-                if (carte instanceof Desamorceur && carte.estRetourner){
-                    return true;
-                }
-            }
+        System.out.println(desamorceursRestants);
+        if (desamorceursRestants < 0){
+            this.status = "fin desamorceur";
+            return false;
         }
-        return false;
+        return true;
     }
+
 }
     
  
