@@ -1,9 +1,14 @@
 package timebomb.time_bomb.Models;
 
+import javafx.scene.image.ImageView;
+
+import java.util.Objects;
+
 //Desamorceur.java
 public class Desamorceur extends Carte {
  public void estRetourner() {
-     // Logique pour quand la carte Desamorceur est retournée
+     setImageView(new ImageView(Objects.requireNonNull(getClass().getResource("/timebomb/time_bomb/Image/carte-desamorcage.jpg")).toExternalForm()));
+     this.estRetourner = true;
      System.out.println("Ouf! Désamorcé une bombe.");
  }
 

@@ -5,11 +5,12 @@ import java.util.*;
 
 public class Partie {
     private final Joueur[] joueurs;
-
+    private int nbManche;
+    private Joueur joueurActuel;
     private List<Joueur> lesJoueurs;
     private List<Carte> deck; // Assumez que cela est rempli comme avant
     private final int toursJoues = 0;
-    private int desamorceursRestants;
+    public int desamorceursRestants = 0;
     private boolean bombeTrouvee = false;
     private final Scanner scanner = new Scanner(System.in); // Pour lire l'entrée utilisateur
     
@@ -37,7 +38,31 @@ public class Partie {
 
     public void initialize(){
         this.deck = creerDeck(lesJoueurs.size());
+        distribuCartes(this.deck);
+        setNbManche();
+        int index = (int) (Math.random() * (lesJoueurs.size()-1));
+        setJoueursSecateur(index,true);
+        joueurActuel = lesJoueurs.get(index);
+    }
 
+    public void setJoueursSecateur(int i,boolean bool){
+        lesJoueurs.get(i).setSectateur(bool);
+    }
+
+    public Joueur getJoueurActuel(){
+        return this.joueurActuel;
+    }
+
+    public List<Joueur> getLesJoueurs(){
+        return this.lesJoueurs;
+    }
+
+    public void setJoueurActuel(){
+        for (Joueur joueur: lesJoueurs) {
+            if (joueur.sectateur){
+                this.joueurActuel = joueur;
+            }
+        }
     }
     
     private List<Carte> creerDeck(int nombreDeJoueurs) {
@@ -45,6 +70,7 @@ public class Partie {
         deck.add(new Bomb()); // Une seule carte Bomb
         for (int i = 0; i < nombreDeJoueurs; i++) {
             deck.add(new Desamorceur()); // Un Desamorceur par joueur
+            desamorceursRestants++;
         }
         int nombreDeCartesNull = nombreDeJoueurs * 5 - (nombreDeJoueurs + 1); // Le reste sont des Carte_Null
         for (int i = 0; i < nombreDeCartesNull; i++) {
@@ -57,6 +83,17 @@ public class Partie {
     private void distribuerCartes(List<Carte> deck) {
         int indexCarte = 0;
         for (Joueur joueur : joueurs) {
+            for (int j = 0; j < 5 && indexCarte < deck.size(); j++) {
+                joueur.ajouterCarte(deck.get(indexCarte++));
+            }
+        }
+    }
+
+
+
+    private void distribuCartes(List<Carte> deck) {
+        int indexCarte = 0;
+        for (Joueur joueur : lesJoueurs) {
             for (int j = 0; j < 5 && indexCarte < deck.size(); j++) {
                 joueur.ajouterCarte(deck.get(indexCarte++));
             }
@@ -105,7 +142,9 @@ public class Partie {
         }
     }
 
-  
+    public void setNbManche(){
+        this.nbManche = lesJoueurs.size();
+    }
 
     private void jouerManche() {
         int joueurActuelIndex = 0;
@@ -143,6 +182,7 @@ public class Partie {
             reinitialiserDeckEtDistribuer();
         }
     }
+
 
     // Méthode pour obtenir l'index d'un joueur dans le tableau joueurs
     private int indexOf(Joueur[] joueurs, Joueur joueur) {
@@ -214,6 +254,18 @@ public class Partie {
 
     public List<Carte> getDeck(){
         return this.deck;
+    }
+    
+    public boolean verifDesamorceur(){
+        int nbRetourner = 0;
+        for (Joueur joueur: lesJoueurs) {
+            for (Carte carte : joueur.getCartes()){
+                if (carte instanceof Desamorceur && carte.estRetourner){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
     

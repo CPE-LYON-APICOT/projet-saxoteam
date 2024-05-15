@@ -78,10 +78,8 @@ public class controllerAddUserName {
 
             if (number < 6){
                 if (values.size()<=2){
-                    System.out.println("la");
                     values.add(new Moriarty(textField.getText()));
                 }else{
-                    System.out.println("ici");
                     values.add(new Sherlock(textField.getText()));
                 }
             }else{
@@ -92,7 +90,6 @@ public class controllerAddUserName {
                 }
             }
         }
-        System.out.println(values);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/timebomb/time_bomb/GameTable.fxml"));
         Parent root = loader.load();
