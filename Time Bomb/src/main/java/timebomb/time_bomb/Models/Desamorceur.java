@@ -13,6 +13,11 @@ public class Desamorceur extends Carte {
  }
 
     @Override
+    public ImageView view() {
+        return new ImageView(Objects.requireNonNull(getClass().getResource("/timebomb/time_bomb/Image/carte-desamorcage.jpg")).toExternalForm());
+    }
+
+    @Override
     public String toString() {
         return "Desamorceur";
     }

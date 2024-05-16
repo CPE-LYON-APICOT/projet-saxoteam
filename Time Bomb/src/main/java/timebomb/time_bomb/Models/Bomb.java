@@ -13,6 +13,11 @@ public class Bomb extends Carte {
  }
 
     @Override
+    public ImageView view() {
+        return new ImageView(Objects.requireNonNull(getClass().getResource("/timebomb/time_bomb/Image/carte-bombe.jpg")).toExternalForm());
+    }
+
+    @Override
     public String toString() {
         return "Bombe";
     }

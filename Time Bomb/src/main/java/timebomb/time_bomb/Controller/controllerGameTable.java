@@ -39,6 +39,7 @@ public class controllerGameTable {
                 button.setDisable(true);
             }
         }
+        partie.showRoleAndCard();
     }
 
     private Button setButton(Joueur joueur) {
@@ -68,22 +69,24 @@ public class controllerGameTable {
             showAlert("Fin du jeu", "Une bombe a explosé... L'équipe Moriarty gagne!");
             return;
         }
-        if(partie.verifDesamorceur())
+        if(partie.verifDesamorceur()){
+            showAlert("Fin du jeu", "Tout les désamorseurs ont été trouvé");
+            return;
+        }
         partie.isMancheFinit();
         System.out.println("nb tour : "+partie.getNbTour());
         System.out.println("nb Manche : "+partie.getNbManche());
 
-        Joueur joueurPrecedent = partie.getJoueurActuel();
-        joueurPrecedent.setSectateur(false);
-        joueurChoisi.setSectateur(true);
-        partie.setJoueurActuel();
-        joureurActuLabel.setText("au tour de " + partie.getJoueurActuel().getNom());
-        changePlayer(joueurPrecedent);
+        changePlayer(partie.getJoueurActuel(),joueurChoisi);
 
     }
 
 
-    private void changePlayer(Joueur previous){
+    private void changePlayer(Joueur previous, Joueur nouveauJoueur){
+        previous.setSectateur(false);
+        nouveauJoueur.setSectateur(true);
+        partie.setJoueurActuel();
+        joureurActuLabel.setText("au tour de " + partie.getJoueurActuel().getNom());
         for (Node node : vboxSelectPlayer.getChildren()) {
             if (node instanceof Button button) {
                 if (button.getText().equals(partie.getJoueurActuel().getNom())) {
@@ -104,6 +107,8 @@ public class controllerGameTable {
         alert.setContentText(s);
         alert.showAndWait();
     }
+
+
 
 
 

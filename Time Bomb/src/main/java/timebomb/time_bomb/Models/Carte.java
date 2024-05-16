@@ -1,6 +1,5 @@
 package timebomb.time_bomb.Models;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.Objects;
@@ -20,6 +19,8 @@ public abstract class Carte {
     }
 
     public abstract void estRetourner();
+
+    public abstract ImageView view();
 
     public boolean isEstRetourner() {
         return this.estRetourner;

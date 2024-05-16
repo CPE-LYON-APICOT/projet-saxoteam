@@ -1,5 +1,12 @@
 package timebomb.time_bomb.Models;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import timebomb.time_bomb.Controller.controllerAttributeCard;
+
+import java.io.IOException;
 import java.util.*;
 
 
@@ -180,6 +187,24 @@ public class Partie {
             nbTour--;
         }else{
             setNewManche();
+        }
+    }
+
+    public void showRoleAndCard(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/timebomb/time_bomb/attributCard.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+
+
+            controllerAttributeCard controllerAttributeCard = fxmlLoader.getController();
+            controllerAttributeCard.initialize(this);
+
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
