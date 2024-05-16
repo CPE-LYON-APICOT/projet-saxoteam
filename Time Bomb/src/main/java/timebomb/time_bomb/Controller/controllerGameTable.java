@@ -2,14 +2,12 @@ package timebomb.time_bomb.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import timebomb.time_bomb.Models.Carte;
-import timebomb.time_bomb.Models.Desamorceur;
-import timebomb.time_bomb.Models.Joueur;
-import timebomb.time_bomb.Models.Partie;
+import timebomb.time_bomb.Models.*;
 
 import java.util.List;
 
@@ -51,6 +49,7 @@ public class controllerGameTable {
 
     private void handleButtonAction(Joueur joueur) {
         hboxSelectCard.getChildren().clear();
+        System.out.println("nombre de carte de "+ joueur.getNom() +" : "+joueur.getCartes().size());
         for (Carte carte : joueur.getCartes()) {
             Button button1 = new Button();
             button1.setGraphic(carte.getImageView());
@@ -65,7 +64,15 @@ public class controllerGameTable {
         if (carte instanceof Desamorceur){
             partie.removeOneDesamorceur();
         }
-        System.out.println(partie.verifDesamorceur());
+        if (carte instanceof Bomb){
+            showAlert("Fin du jeu", "Une bombe a explosé... L'équipe Moriarty gagne!");
+            return;
+        }
+        if(partie.verifDesamorceur())
+        partie.isMancheFinit();
+        System.out.println("nb tour : "+partie.getNbTour());
+        System.out.println("nb Manche : "+partie.getNbManche());
+
         Joueur joueurPrecedent = partie.getJoueurActuel();
         joueurPrecedent.setSectateur(false);
         joueurChoisi.setSectateur(true);
@@ -87,6 +94,15 @@ public class controllerGameTable {
                 }
             }
         }
+    }
+
+    //Fait par malik
+    private void showAlert(String finDuJeu, String s) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(finDuJeu);
+        alert.setHeaderText(null);
+        alert.setContentText(s);
+        alert.showAndWait();
     }
 
 

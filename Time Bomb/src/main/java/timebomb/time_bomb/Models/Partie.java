@@ -9,12 +9,8 @@ public class Partie {
     private Joueur joueurActuel;
     private List<Joueur> lesJoueurs;
     private List<Carte> deck; // Assumez que cela est rempli comme avant
-    private final int toursJoues = 0;
     public int desamorceursRestants = 0;
-    private boolean bombeTrouvee = false;
-    private final Scanner scanner = new Scanner(System.in); // Pour lire l'entrée utilisateur
     private String status;
-
     private int nbTour;
     
     
@@ -22,6 +18,7 @@ public class Partie {
         joueurs = new Joueur[nombreDeJoueurs];
     }
 
+    //création de l'objet partie
     public Partie( List<Joueur> joueurs) {
         this.joueurs = joueurs.toArray(new Joueur[0]);
         this.lesJoueurs = joueurs;
@@ -29,29 +26,16 @@ public class Partie {
 
     }
 
-    public void initialiser() {
-        // Créer un jeu de cartes
-        List<Carte> deck = creerDeck(joueurs.length);
-        
-        // Assigner les rôles
-        assignerRoles();
-        
-        // Distribuer les cartes
-        distribuerCartes(deck);
-    }
-
+    //Initialisation de la partie ce qui implique la création du deck, la création du nombre de manche, le choix du premier joueur aléatoir.
     public void initialize(){
         this.deck = creerDeck(lesJoueurs.size());
         distribuCartes(this.deck);
+        System.out.println("taille initial : "+deck.size());
         setNbManche();
         int index = (int) (Math.random() * (lesJoueurs.size()-1));
-        setJoueursSecateur(index,true);
         joueurActuel = lesJoueurs.get(index);
+        joueurActuel.setSectateur(true);
         this.status = "en cours";
-    }
-
-    public void setJoueursSecateur(int i,boolean bool){
-        lesJoueurs.get(i).setSectateur(bool);
     }
 
     public Joueur getJoueurActuel(){
@@ -71,8 +55,14 @@ public class Partie {
     }
 
     public void setNbTour(){
-        this.nbTour = lesJoueurs.size();
+        this.nbTour = lesJoueurs.size()-1;
     }
+
+    public int getNbTour(){
+        return this.nbTour;
+    }
+
+    public int getNbManche(){ return this.nbManche;}
 
     private List<Carte> creerDeck(int nombreDeJoueurs) {
         List<Carte> deck = new ArrayList<>();
@@ -88,24 +78,26 @@ public class Partie {
         Collections.shuffle(deck);
         return deck;
     }
-    
-    private void distribuerCartes(List<Carte> deck) {
-        int indexCarte = 0;
-        for (Joueur joueur : joueurs) {
-            joueur.clearCard();
-            for (int j = 0; j < 5 && indexCarte < deck.size(); j++) {
-                joueur.ajouterCarte(deck.get(indexCarte++));
-            }
-        }
-    }
-
 
 
     private void distribuCartes(List<Carte> deck) {
+        int nombreDeJoueurs = lesJoueurs.size();
+        int nombreDeCartesParJoueur = deck.size() / nombreDeJoueurs;
         int indexCarte = 0;
+
         for (Joueur joueur : lesJoueurs) {
-            for (int j = 0; j < 5 && indexCarte < deck.size(); j++) {
+            joueur.clearCard();
+            for (int j = 0; j < nombreDeCartesParJoueur; j++) {
                 joueur.ajouterCarte(deck.get(indexCarte++));
+            }
+        }
+
+        while (indexCarte < deck.size()) {
+            for (Joueur joueur : lesJoueurs) {
+                joueur.ajouterCarte(deck.get(indexCarte++));
+                if (indexCarte >= deck.size()) {
+                    break;
+                }
             }
         }
     }
@@ -135,24 +127,12 @@ public class Partie {
 
 
     public void setNbManche(){
-        this.nbManche = lesJoueurs.size();
+        this.nbManche = lesJoueurs.size()-1;
     }
-
-
-
-    // Méthode pour obtenir l'index d'un joueur dans le tableau joueurs
-    private int indexOf(Joueur[] joueurs, Joueur joueur) {
-        for (int i = 0; i < joueurs.length; i++) {
-            if (joueur.equals(joueurs[i])) {
-                return i;
-            }
-        }
-        return -1; // Si le joueur n'est pas trouvé, cela indiquerait une erreur
-    }
-
 
     private void reinitialiserDeckEtDistribuer() {
         deck.removeIf(carte -> carte.estRetourner);
+        System.out.println(deck.size());
         distribuCartes(deck);
     }
 
@@ -166,18 +146,15 @@ public class Partie {
         if (nbManche>0){
             reinitialiserDeckEtDistribuer();
             nbManche--;
+            setNbTour();
         }
         else if(nbManche == 0){
-            if(!verifDesamorceur()){
+            if(verifDesamorceur()){
                 this.status = "fin desamorceur";
             }else{
                 this.status = "fin sans desamorseur";
             }
         }
-    }
-
-    public List<Carte> getJoueurDeck(int idJoueur){
-        return joueurs[idJoueur].getCartes();
     }
 
     public List<Carte> getDeck(){
@@ -186,11 +163,24 @@ public class Partie {
     
     public boolean verifDesamorceur(){
         System.out.println(desamorceursRestants);
-        if (desamorceursRestants < 0){
-            this.status = "fin desamorceur";
-            return false;
+        return desamorceursRestants <= 0;
+    }
+
+    public boolean revealBomb() {
+        for (Carte carte : getDeck()) {
+            if (carte instanceof Bomb && carte.isEstRetourner()) {
+                return true;
+            }
         }
-        return true;
+        return false;
+    }
+
+    public void isMancheFinit(){
+        if(nbTour>0){
+            nbTour--;
+        }else{
+            setNewManche();
+        }
     }
 
 }

@@ -21,4 +21,7 @@ public abstract class Carte {
 
     public abstract void estRetourner();
 
+    public boolean isEstRetourner() {
+        return this.estRetourner;
+    }
 }
