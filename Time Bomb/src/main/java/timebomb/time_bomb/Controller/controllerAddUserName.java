@@ -78,15 +78,15 @@ public class controllerAddUserName {
 
             if (number < 6){
                 if (values.size()<=2){
-                    values.add(new Moriarty(textField.getText()));
-                }else{
                     values.add(new Sherlock(textField.getText()));
+                }else{
+                    values.add(new Moriarty(textField.getText()));
                 }
             }else{
                 if (values.size()<=3){
-                    values.add(new Moriarty(textField.getText()));
-                }else{
                     values.add(new Sherlock(textField.getText()));
+                }else{
+                    values.add(new Moriarty(textField.getText()));
                 }
             }
         }

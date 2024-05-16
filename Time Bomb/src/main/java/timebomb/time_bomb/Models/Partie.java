@@ -19,11 +19,6 @@ public class Partie {
     public int desamorceursRestants = 0;
     private String status;
     private int nbTour;
-    
-    
-    public Partie(int nombreDeJoueurs) {
-        joueurs = new Joueur[nombreDeJoueurs];
-    }
 
     //création de l'objet partie
     public Partie( List<Joueur> joueurs) {
