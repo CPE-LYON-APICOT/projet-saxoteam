@@ -39,6 +39,7 @@ public class controllerGameTable {
                 button.setDisable(true);
             }
         }
+        changeNBDesamorceurs();
         partie.showRoleAndCard();
     }
 
@@ -50,7 +51,6 @@ public class controllerGameTable {
 
     private void handleButtonAction(Joueur joueur) {
         hboxSelectCard.getChildren().clear();
-        System.out.println("nombre de carte de "+ joueur.getNom() +" : "+joueur.getCartes().size());
         for (Carte carte : joueur.getCartes()) {
             Button button1 = new Button();
             button1.setGraphic(carte.getImageView());
@@ -65,17 +65,17 @@ public class controllerGameTable {
         if (carte instanceof Desamorceur){
             partie.removeOneDesamorceur();
         }
+        changeNBDesamorceurs();
         if (carte instanceof Bomb){
             showAlert("Fin du jeu", "Une bombe a explosé... L'équipe Moriarty gagne!");
             return;
         }
         if(partie.verifDesamorceur()){
-            showAlert("Fin du jeu", "Tout les désamorseurs ont été trouvé");
+            showAlert("Fin du jeu", "Tout les désamorseurs ont été trouvé ");
             return;
         }
         partie.isMancheFinit();
-        System.out.println("nb tour : "+partie.getNbTour());
-        System.out.println("nb Manche : "+partie.getNbManche());
+
 
         changePlayer(partie.getJoueurActuel(),joueurChoisi);
 
@@ -108,6 +108,10 @@ public class controllerGameTable {
         alert.showAndWait();
     }
 
+
+    private void changeNBDesamorceurs(){
+        resultLabel.setText("Désamorceurs restants : "+partie.getDesamorceursRestants());
+    }
 
 
 

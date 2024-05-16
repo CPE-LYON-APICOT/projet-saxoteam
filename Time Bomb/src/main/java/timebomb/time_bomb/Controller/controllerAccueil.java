@@ -50,7 +50,6 @@ public class controllerAccueil {
         public void validate(ActionEvent actionEvent) throws IOException {
 
                 Integer number = choiceNumber.getValue();
-                System.out.println(number);
                 if (number != null){
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/timebomb/time_bomb/addUserName.fxml"));

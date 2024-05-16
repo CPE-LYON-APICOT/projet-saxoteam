@@ -54,7 +54,6 @@ public class controllerAttributeCard {
         }
         compteur+=1;
         cardOrdName();
-        System.out.println(compteur);
         if (compteur == partie.getLesJoueurs().size() * 2 -1){
             nextButton.setDisable(true);
         }
@@ -99,7 +98,6 @@ public class controllerAttributeCard {
     }
 
     private void displayRole(Joueur joueur){
-        System.out.println(joueur.retournerRole());
 
         Label roleLabel = new Label();
         roleLabel.setText(joueur.retournerRole());

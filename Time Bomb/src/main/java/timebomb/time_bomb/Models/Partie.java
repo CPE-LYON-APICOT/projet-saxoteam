@@ -37,7 +37,6 @@ public class Partie {
     public void initialize(){
         this.deck = creerDeck(lesJoueurs.size());
         distribuCartes(this.deck);
-        System.out.println("taille initial : "+deck.size());
         setNbManche();
         int index = (int) (Math.random() * (lesJoueurs.size()-1));
         joueurActuel = lesJoueurs.get(index);
@@ -71,6 +70,10 @@ public class Partie {
 
     public int getNbManche(){ return this.nbManche;}
 
+    public int getDesamorceursRestants() {
+        return this.desamorceursRestants;
+    }
+
     private List<Carte> creerDeck(int nombreDeJoueurs) {
         List<Carte> deck = new ArrayList<>();
         deck.add(new Bomb()); // Une seule carte Bomb
@@ -85,7 +88,6 @@ public class Partie {
         Collections.shuffle(deck);
         return deck;
     }
-
 
     private void distribuCartes(List<Carte> deck) {
         int nombreDeJoueurs = lesJoueurs.size();
@@ -139,7 +141,6 @@ public class Partie {
 
     private void reinitialiserDeckEtDistribuer() {
         deck.removeIf(carte -> carte.estRetourner);
-        System.out.println(deck.size());
         distribuCartes(deck);
     }
 
@@ -169,7 +170,6 @@ public class Partie {
     }
     
     public boolean verifDesamorceur(){
-        System.out.println(desamorceursRestants);
         return desamorceursRestants <= 0;
     }
 
@@ -187,6 +187,7 @@ public class Partie {
             nbTour--;
         }else{
             setNewManche();
+            this.showRoleAndCard();
         }
     }
 
