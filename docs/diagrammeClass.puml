@@ -1,0 +1,57 @@
+@startuml timebomb
+
+abstract class joueur {
+    string nom ;
+    bool secateur;
+    Carte[] cartes
+}
+
+class sherlock extends joueur {
+
+}
+
+class moriaty extends joueur {
+
+}
+
+abstract class carte {
+    estretourner
+}
+
+class bomb extends carte
+{
+
+}
+
+class desamorceur extends carte {
+
+}
+
+class carte_null extends carte {
+
+}
+' interface Ifindujeu {
+'     void verif_fin_du_jeu(carte);
+' }
+
+class partie implements IDistributionCarte {
+ declationMechantGentil[]
+ Joueur[] joueurs
+ int numeroDeTour
+ Joueur joueurActuel
+ jouerTourEnCours()
+'    numeroDeTour ++
+'    joueurActuel = ??
+ declarerFinDuJeu(Joueur, nbDePointsAAttribuer)
+
+}
+
+
+class Factory {
+
+}
+
+partie o-joueur
+joueur o-carte
+
+@enduml timebomb
