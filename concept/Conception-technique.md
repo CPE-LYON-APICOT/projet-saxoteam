@@ -90,6 +90,8 @@ On en a pas rencontré.
  
 #### 1. [Factory]
 [Décrivez ici brièvement le design pattern utilisé et pourquoi]
+Nous avons décidé de nous basé sur un modèle MVC, ce qui avec le temps que ca nous à pris à nous habituer,
+nous permet donc maintenant de devenir beaucoup plus efficace pour assurer un développement plus efficace à l'avenir.
 On a utilisé un desgin patern factory, car il était beaucoup plus facile à gérer.
 On aurait bien aimé utiliser un singleton pour la partie mias nous avons rencontré des difficulté pour son utilisation.
 [Ajouter éventuellement des exemples de code pour montrer l'élégence de votre solution, pour cela vous pouvez écrire en Markdown votre code ainsi :
