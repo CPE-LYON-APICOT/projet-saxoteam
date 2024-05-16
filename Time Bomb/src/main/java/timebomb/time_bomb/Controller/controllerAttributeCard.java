@@ -14,10 +14,14 @@ public class controllerAttributeCard {
     private HBox HBoxViewCard;
 
     @FXML
+    private AnchorPane anchorPaneBottom;
+
+    @FXML
     private Button nextButton;
 
     @FXML
     private Button previousButton;
+
 
     Partie partie;
 
@@ -59,11 +63,13 @@ public class controllerAttributeCard {
     private void cardOrdName() {
         if (compteur % 2 == 0){
             HBoxViewCard.getChildren().clear();
+            anchorPaneBottom.getChildren().clear();
             displayFirstPage(partie.getLesJoueurs().get(compteur/2));
         }else{
             HBoxViewCard.getChildren().clear();
-            System.out.println(partie.getLesJoueurs().get(compteur /2).getNom());
+            anchorPaneBottom.getChildren().clear();
             displayCard(partie.getLesJoueurs().get(compteur /2));
+            displayRole(partie.getLesJoueurs().get(compteur/2));
         }
     }
 
@@ -88,8 +94,20 @@ public class controllerAttributeCard {
         double labelLayoutY = (anchorPaneHeight - labelHeight) / 2;
         label.setLayoutX(labelLayoutX);
         label.setLayoutY(labelLayoutY);
-
         HBoxViewCard.getChildren().add(anchorPane);
+
+    }
+
+    private void displayRole(Joueur joueur){
+        System.out.println(joueur.retournerRole());
+
+        Label roleLabel = new Label();
+        roleLabel.setText(joueur.retournerRole());
+        roleLabel.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        roleLabel.setFont(new javafx.scene.text.Font(36.0));
+
+        anchorPaneBottom.getChildren().add(roleLabel);
+
     }
 
     private void displayCard(Joueur joueur){

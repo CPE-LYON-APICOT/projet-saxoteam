@@ -33,7 +33,9 @@ public abstract class Joueur {
          carte.estRetourner();
      }
  }
- 
+
+ public abstract String retournerRole();
+
  public List<Carte> getCartes() {
      return cartes;
  }
@@ -72,6 +74,7 @@ public abstract class Joueur {
  public void clearCard(){
      cartes.clear();
  }
+
 }
 
 

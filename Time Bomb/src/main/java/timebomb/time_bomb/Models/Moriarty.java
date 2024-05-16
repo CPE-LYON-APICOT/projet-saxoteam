@@ -16,4 +16,9 @@ public class Moriarty extends Joueur {
      retournerCarte();
  }
 
+    @Override
+    public String retournerRole() {
+        return "Moriaty";
+    }
+
 }

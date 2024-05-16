@@ -11,10 +11,14 @@ public class Sherlock extends Joueur {
         super(joueur.getNom());
     }
 
+     public void jouer() {
+         // Logique spécifique à Sherlock pour jouer un tour
+         System.out.println(nom + " est en train de jouer.");
+         retournerCarte();
+     }
 
- public void jouer() {
-     // Logique spécifique à Sherlock pour jouer un tour
-     System.out.println(nom + " est en train de jouer.");
-     retournerCarte();
- }
+    @Override
+    public String retournerRole() {
+        return "Sherlock";
+    }
 }
